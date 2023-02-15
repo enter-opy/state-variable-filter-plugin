@@ -11,6 +11,13 @@
 #include <JuceHeader.h>
 using namespace juce;
 
+#define CUTOFF_ID "cutoff"
+#define CUTOFF_NAME "Cutoff"
+#define RESONANCE_ID "resonance"
+#define RESONANCE_NAME "Resonance"
+#define FILTERTYPE_ID "filtertype"
+#define FILTERTYPE_NAME "FilterType"
+
 //==============================================================================
 /**
 */
@@ -57,8 +64,12 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-    AudioProcessorValueTreeState valueTree;
+    AudioProcessorValueTreeState treeState;
 private:
+    float lastSampleRate;
+
+    dsp::ProcessorDuplicator<dsp::StateVariableFilter::Filter<float>, dsp::StateVariableFilter::Parameters<float>> stateVariableFilter;
+
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FilterAudioProcessor)
 };

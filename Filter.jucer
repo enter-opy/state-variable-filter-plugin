@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="mbttMx" name="Filter" projectType="audioplug" useAppConfig="0"
-              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
+              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
+              companyName="vivek vijayan">
   <MAINGROUP id="Ek3F2O" name="Filter">
     <GROUP id="{463F9D1B-C2E2-71CA-ED59-ACBDD0ABB120}" name="Source">
       <FILE id="yB7RK9" name="PluginProcessor.cpp" compile="1" resource="0"

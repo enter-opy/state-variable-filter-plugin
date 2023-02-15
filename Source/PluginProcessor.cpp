@@ -19,16 +19,13 @@ FilterAudioProcessor::FilterAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       ), valueTree(*this, nullptr)
+                       ),
+    treeState(*this, nullptr, "PARAMETER", { std::make_unique<AudioParameterFloat>(CUTOFF_ID, CUTOFF_NAME, 20.0f, 20000.0f, 600.0f),
+        std::make_unique<AudioParameterFloat>(RESONANCE_ID, RESONANCE_NAME, 1.0f, 5.0f, 1.0f),
+        std::make_unique<AudioParameterFloat>(FILTERTYPE_ID, FILTERTYPE_NAME, 0, 2, 0) })
 #endif
 {
-    NormalisableRange<float> cutoffRange(20.0f, 20000.0f);
-    NormalisableRange<float> resonanceRange(1.0f, 5.0f);
-    NormalisableRange<float> filterTypeRange(0, 2);
-
-    valueTree.createAndAddParameter("cutoff", "Cutoff", "cutoff", cutoffRange, 600.0f, nullptr, nullptr);
-    valueTree.createAndAddParameter("resonance", "Resonance", "resonance", resonanceRange, 1.0f, nullptr, nullptr);
-    valueTree.createAndAddParameter("filterMenu", "FilterMenu", "filterMenu", filterTypeRange, 0, nullptr, nullptr);
+    treeState.state = ValueTree("savedParams");
 }
 
 FilterAudioProcessor::~FilterAudioProcessor()
@@ -182,12 +179,21 @@ void FilterAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
+    std::unique_ptr <XmlElement> xml(treeState.state.createXml());
+    copyXmlToBinary(*xml, destData);
 }
 
 void FilterAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
+    std::unique_ptr <XmlElement> params(getXmlFromBinary(data, sizeInBytes));
+
+    if (params != nullptr) {
+        if (params->hasTagName(treeState.state.getType())) {
+            treeState.state = ValueTree::fromXml(*params);
+        }
+    }
 }
 
 //==============================================================================
