@@ -18,8 +18,6 @@
 class SliderLookAndFeel : public juce::LookAndFeel_V4
 {
 public:
-    // we are creating a customLookAndFeel class inherited from lookAndFeel class
-    // and overriding the function drawRotarySlider
     void drawRotarySlider(juce::Graphics& g, int x, int y, int width, int height, float sliderPos, float rotatoryStartAngle, float rotatoryEndAngle, juce::Slider& slider) override
     {
         float diameter = jmin(width, height);
