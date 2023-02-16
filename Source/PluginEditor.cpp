@@ -25,21 +25,25 @@ FilterAudioProcessorEditor::FilterAudioProcessorEditor (FilterAudioProcessor& p)
     filterTypeMenu.addItem("Low Pass", 1);
     filterTypeMenu.addItem("Band Pass", 2);
     filterTypeMenu.addItem("High Pass", 3);
+    filterTypeMenu.setSelectedId(1);
     addAndMakeVisible(&filterTypeMenu);
 
-    cutoffSlider.setSliderStyle(Slider::Rotary);
+    cutoffSlider.setSliderStyle(Slider::RotaryVerticalDrag);
     cutoffSlider.setRange(20.0f, 20000.0f);
     cutoffSlider.setValue(600.0f);
     cutoffSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     cutoffSlider.setPopupDisplayEnabled(true, true, this);
+    cutoffSlider.setTextValueSuffix(" Hz");
     cutoffSlider.setSkewFactorFromMidPoint(1000.0f);
+    cutoffSlider.setLookAndFeel(&sliderLookAndFeel);
     addAndMakeVisible(&cutoffSlider);
 
-    resonanceSlider.setSliderStyle(Slider::Rotary);
-    resonanceSlider.setRange(1.0f, 5.0f);
-    resonanceSlider.setValue(2.0f);
+    resonanceSlider.setSliderStyle(Slider::RotaryVerticalDrag);
+    resonanceSlider.setRange(1.0f, 100.0f);
+    resonanceSlider.setValue(1.0f);
     resonanceSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     resonanceSlider.setPopupDisplayEnabled(true, true, this);
+    resonanceSlider.setLookAndFeel(&sliderLookAndFeel);
     addAndMakeVisible(&resonanceSlider);
 }
 
@@ -64,6 +68,6 @@ void FilterAudioProcessorEditor::resized()
     Rectangle<int> area = getLocalBounds().reduced(40);
 
     filterTypeMenu.setBounds(area.removeFromTop(20));
-    cutoffSlider.setBounds(30, 90, 70, 70);
-    resonanceSlider.setBounds(100, 90, 70, 70);
+    cutoffSlider.setBounds(40, 100, 50, 50);
+    resonanceSlider.setBounds(110, 100, 50, 50);
 }

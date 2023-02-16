@@ -21,7 +21,7 @@ FilterAudioProcessor::FilterAudioProcessor()
                      #endif
                        ),
     treeState(*this, nullptr, "PARAMETER", { std::make_unique<AudioParameterFloat>(CUTOFF_ID, CUTOFF_NAME, 20.0f, 20000.0f, 600.0f),
-        std::make_unique<AudioParameterFloat>(RESONANCE_ID, RESONANCE_NAME, 1.0f, 5.0f, 1.0f),
+        std::make_unique<AudioParameterFloat>(RESONANCE_ID, RESONANCE_NAME, 1.0f, 100.0f, 1.0f),
         std::make_unique<AudioParameterFloat>(FILTERTYPE_ID, FILTERTYPE_NAME, 0, 2, 0) })
 #endif
 {
@@ -112,7 +112,7 @@ void FilterAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock
 void FilterAudioProcessor::updateFilter() {
     int filterType = *treeState.getRawParameterValue(FILTERTYPE_ID);
     float cutoff = *treeState.getRawParameterValue(CUTOFF_ID);
-    float resonance = *treeState.getRawParameterValue(RESONANCE_ID);
+    float resonance = *treeState.getRawParameterValue(RESONANCE_ID) / 20.0f;
 
     if (filterType == 0) {
         stateVariableFilter.state->type = dsp::StateVariableFilter::Parameters<float>::Type::lowPass;
