@@ -1,3 +1,3 @@
 # Juce
 
-Basic filter plugin with low pass, band pass and highpass filters
+Basic filter plugin using Juce DSP module
